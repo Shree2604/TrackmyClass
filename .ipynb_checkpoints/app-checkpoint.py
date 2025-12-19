@@ -5,6 +5,7 @@ import os
 import json
 from datetime import datetime
 import hashlib
+import datetime
 
 MONGODB_URI = 'mongodb+srv://Pubzeee1311:12345@30daysofpython.xpenqyh.mongodb.net/'
 client = pymongo.MongoClient(MONGODB_URI)
@@ -16,23 +17,47 @@ def hash(classified):
     hasher.update(binary_classified)
     return hasher.hexdigest()
 
-def dasboard_student(_id):
+def add_groups(_id):
+    user = db.users.find_one({'_id':_id})
+
+def add_event(_id):
+    user = db.user.find_one({'_id':_id})
+    group = input("Enter the username of the group for which you want to add the event :")
+    while 1 :
+        if group in user['groups']:
+            db.groups.find_one({'groupname'})
+    name = input('Enter the name of the event you want to enter :')
+    time_start = input("Enter the starting date and time of the event in following format using only digits (<date>-<month>-<year>--<hour>-<minutes>) :")
+    time_end = input("Enter the ending date and time of the event in following format using only digits (<date>-<month>-<year>--<hour>-<minutes>) :")
+    description = input("Enter a small description of the event :")
+    event = {
+        'name' : name ,
+        'description' : description , 
+        'time_start' : time_start ,
+        'time_end' : time_end
+    }
+    
+    
+
+def show_events(_id):
+    pass
+
+def dashboard_student(_id):
     pass
 
 def dashboard_cr(_id):
     pass
 
-def dashboard_(_id):
+def dashboard_admin(_id):
     pass
-    
 
 def dashboard(_id):
-    user = bd.users.find_one({"_id":_id})
-    if user['role'] = 'student' :
+    user = db.users.find_one({"_id":_id})
+    if user['role'] == 'student' :
         dashboard_student(user['_id'])
-    if user['role'] = 'cr' :
+    if user['role'] == 'cr' :
         dashboard_cr(user['_id'])
-    if user['role'] = 'admin' :
+    if user['role'] == 'admin' :
         dashboard_admin(user['_id'])
     
 
@@ -85,5 +110,6 @@ def loginsignup():
                 dashboard(temp['_id'])
             else :
                 print("The username is taken. \nPlease try again..")
-        
+
 loginsignup()
+

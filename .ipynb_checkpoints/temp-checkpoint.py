@@ -10,6 +10,9 @@ MONGODB_URI = 'mongodb+srv://Pubzeee1311:12345@30daysofpython.xpenqyh.mongodb.ne
 client = pymongo.MongoClient(MONGODB_URI)
 db = client['TrackmyClass']
 
-db.users.insert_one({"username":"cr","password":"password","role":"cr"})
-db.users.insert_one({"username":"admin","password":"password","role":"admin"})
-db.users.insert_one({"username":"student","password":"password","role":"student"})
+now = datetime.now()
+newyear = datetime(year = 2026)
+
+diff = newyear - now
+
+print(diff)
