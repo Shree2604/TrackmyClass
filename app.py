@@ -16,6 +16,9 @@ def hash(classified):
     binary_classified = classified.encode('utf-8')
     hasher.update(binary_classified)
     return hasher.hexdigest()
+        
+def show_events(_id):
+    user = db.users.find_one({'_id':_id})
 
 def edit_groups(_id):
     user = db.users.find_one({'_id':_id})
@@ -38,25 +41,56 @@ def edit_groups(_id):
 
 def add_event(_id):
     user = db.user.find_one({'_id':_id})
-    group = input("Enter the groupname of the group for which you want to add the event :")
     while 1 :
+        group = input("Enter the groupname of the group for which you want to add the event or 'exit' to stop :")
+        if group = 'exit' :
+            break
         if group in user['groups']:
-            db.groups.find_one({'groupname'})
-    name = input('Enter the name of the event you want to enter :')
-    time_start = input("Enter the starting date and time of the event in following format using only digits (<date> <month> <year(YYYY)> - <hour> <minutes>) :")
-    time_end = input("Enter the ending date and time of the event in following format using only digits (<date> <month> <year(YYYY)> - <hour(24 hour format)> <minutes>) :")
-    time_start = datetime.strptime(time_start,"%d %m %Y - %H %M")
-    time_end = datetime.strptime(time_end,"%d %m %Y - %H %M")
-    event = {
-        'name' : name ,
-        'time_start' : time_start ,
-        'time_end' : time_end
-    }
-    
-    
-
-def show_events(_id):
-    pass
+            group_info = db.groups.find_one({'groupname' : groups})
+            if group_info == None :
+                print("No such group exists, please try again .")
+                continue
+            name = input('Enter the name of the event you want to enter :')
+            time_start = input("Enter the starting date and time of the event in following format using only digits (<date> <month> <year(YYYY)> - <hour> <minutes>) :")
+            time_end = input("Enter the ending date and time of the event in following format using only digits (<date> <month> <year(YYYY)> - <hour(24 hour format)> <minutes>) :")
+            time_start = datetime.strptime(time_start,"%d %m %Y - %H %M")
+            time_end = datetime.strptime(time_end,"%d %m %Y - %H %M")
+            event = {
+                'name' : name ,
+                'time_start' : time_start ,
+                'time_end' : time_end
+            }
+            group_info['events'].append(event)
+        else :
+            print('You are not in that group, please try again')
+            
+def remove_event(_id):
+    user = db.user.find_one({'_id':_id})
+    while 1 :
+        group = input("Enter the groupname of the group for which you want to remove the event or 'exit' to stop :")
+        if group = 'exit' :
+            break
+        if group in user['groups']:
+            group_info = db.groups.find_one({'groupname' : groups})
+            if group_info == None :
+                print("No such group exists, please try again .")
+                continue
+            name = input('Enter the name of the event you want to enter :')
+            time_start = input("Enter the starting date and time of the event in following format using only digits (<date> <month> <year(YYYY)> - <hour> <minutes>) :")
+            time_end = input("Enter the ending date and time of the event in following format using only digits (<date> <month> <year(YYYY)> - <hour(24 hour format)> <minutes>) :")
+            time_start = datetime.strptime(time_start,"%d %m %Y - %H %M")
+            time_end = datetime.strptime(time_end,"%d %m %Y - %H %M")
+            event = {
+                'name' : name ,
+                'time_start' : time_start ,
+                'time_end' : time_end
+            }
+            try :
+                group_info['events'].remove(event)
+            except :
+                print('No such event found, please try again.')
+        else :
+            print('You are not in that group, please try again')
 
 def dashboard_student(_id):
     pass
